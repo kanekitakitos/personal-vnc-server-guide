@@ -389,10 +389,10 @@ Después de seguir la guía, la estructura de archivos y directorios relevantes 
 
 ## Referencias y Enlaces Útiles
 
-- **x11vnc**: [Documentación (man page)](https://www.karlrunge.com/x11vnc/x11vnc_opts.html)
+- **x11vnc**: [Documentación (man page)](https://github.com/LibVNC/x11vnc)
 - **noVNC**: [Repositorio en GitHub](https://github.com/novnc/noVNC)
 - **Nginx**: [Documentación Oficial](https://nginx.org/en/docs/)
-- **Certbot**: [Documentación Oficial](https://certbot.eff.org/docs/)
+- **Certbot**: [Documentación Oficial](https://certbot.eff.org/)
 - **Fail2Ban**: [Sitio Oficial](https://www.fail2ban.org/wiki/index.php/Main_Page)
 
 ## Licencia
