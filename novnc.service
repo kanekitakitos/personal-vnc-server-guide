@@ -1,0 +1,13 @@
+[Unit]
+Description=noVNC proxy service
+After=network.target
+
+[Service]
+Type=simple
+User=your_username
+# Adjust the path if you cloned noVNC to a different directory
+ExecStart=/home/your_username/noVNC/utils/novnc_proxy --listen 8081 --vnc localhost:5900
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

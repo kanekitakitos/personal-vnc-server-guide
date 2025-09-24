@@ -1,0 +1,16 @@
+[Unit]
+Description=x11vnc service for user "your_username"
+After=multi-user.target graphical.target
+
+[Service]
+# The -auth path may vary depending on your system.
+# You can find the correct path by running the following command as the target user:
+# echo $XAUTHORITY
+# If that doesn't work, you can try to find it with:
+# find /var/run/ -name "*Xauthority*" 2>/dev/null
+ExecStart=/usr/bin/x11vnc -display :0 -auth /run/user/1000/gdm/Xauthority -rfbauth /home/"your_username"/.vnc/passwd -forever -shared -o /home/"your_username"/x11vnc.log -rfbport 5900
+Restart=always
+User="your_username"
+
+[Install]
+WantedBy=multi-user.target
