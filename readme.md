@@ -1,3 +1,16 @@
+<div align="center">
+
+[![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Plataforma](https://img.shields.io/badge/Plataforma-Ubuntu-E95420.svg)
+![Servidor Web](https://img.shields.io/badge/Servidor_Web-Nginx-269539.svg)
+![Seguridad](https://img.shields.io/badge/Seguridad-SSH_&_SSL-red.svg)
+<br>
+![VNC Server](https://img.shields.io/badge/VNC_Server-x11vnc-orange.svg)
+![Web Client](https://img.shields.io/badge/Web_Client-noVNC-brightgreen.svg)
+![Service Manager](https://img.shields.io/badge/Service_Manager-systemd-lightgrey.svg)
+
+</div>
+
 # Guía para Configurar un Servidor VNC Personal y Seguro en Ubuntu
 
 ## Resumen
@@ -18,51 +31,51 @@ Esta guía ofrece instrucciones detalladas para configurar un servidor de escrit
       <tr>
         <td style="text-align:center;">
           <pre>
-    ┌─────────────────────────────┐
-    │       Usuario Final         │
-    └─────────────┬───────────────┘
-                  │
-                  ▼
-    ┌─────────────────────────────┐
-    │       Navegador Web         │
-    │   (puerto local 8080/443)   │
-    └─────────────┬───────────────┘
-                  │
-                  ▼
-    ┌─────────────────────────────┐
-    │         Internet            │
-    └─────────────┬───────────────┘
-                  │
-                  ▼
-    ┌─────────────────────────────┐
-    │     Dominio público         │
-    │   (puertos 80/443 TCP)      │
-    └─────────────┬───────────────┘
-                  │
-                  ▼
-    ┌─────────────────────────────┐
-    │         Nginx               │
-    │   (puertos 80/443 TCP)      │
-    └─────────────┬───────────────┘
-                  │
-                  ▼
-    ┌─────────────────────────────┐
-    │         noVNC               │
-    │   (puerto 8081 TCP)         │
-    └─────────────┬───────────────┘
-                  │
-                  ▼
-    ┌─────────────────────────────┐
-    │         x11vnc              │
-    │   (puerto 5900 TCP)         │
-    └─────────────────────────────┘
+┌─────────────────────────────┐
+│       Usuario Final         │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│       Navegador Web         │
+│     (puerto local 443)      │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│         Internet            │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│     Dominio público         │
+│   (puertos 80/443 TCP)      │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│         Nginx               │
+│   (puertos 80/443 TCP)      │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│         noVNC               │
+│   (puerto 80/443:8081 TCP)  │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│         x11vnc              │
+│   (puerto 5900 TCP)         │
+└─────────────────────────────┘
           </pre>
         </td>
         <td style="text-align:center;">
           <pre>
 ┌─────────────────────────────┐
 │       Cliente VNC           │
-│   (puerto local 5901)       │
+│     (localhost:5901)        │
 └─────────────┬───────────────┘
               │
               ▼
