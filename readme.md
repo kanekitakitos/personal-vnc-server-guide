@@ -6,9 +6,82 @@ Esta guía ofrece instrucciones detalladas para configurar un servidor de escrit
 
 ## Diagrama del Flujo de Conexión y Puertos
 
-| **Acceso Web (Nginx/noVNC)** | **Acceso con Cliente VNC (Túnel SSH)** |
-|:--------------------------:|:--------------------------------------:|
-| <pre>      ┌─────────────────────────────┐<br>      │        Usuario Final        │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │      Navegador Web          │<br>      │  (puerto local 8080/443)    │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │        Internet             │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │      Dominio público        │<br>      │   (puertos 80/443 TCP)      │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │         Nginx               │<br>      │  (puertos 80/443 TCP)       │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │         noVNC               │<br>      │   (puerto 8081 TCP)         │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │         x11vnc              │<br>      │   (puerto 5900 TCP)         │<br>      └─────────────────────────────┘</pre> | <pre>┌─────────────────────────────┐<br>│        Cliente VNC          │<br>│    (puerto local 5901)      │<br>└─────────────┬───────────────┘<br>              │<br>              ▼<br>┌─────────────────────────────┐<br>│      Túnel SSH              │<br>│  (puerto 22 TCP)            │<br>└─────────────┬───────────────┘<br>              │<br>              ▼<br>┌─────────────────────────────┐<br>│        x11vnc               │<br>│    (puerto 5900 TCP)        │<br>└─────────────────────────────┘<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></pre> |
+<div align="center">
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align:center;">**Acceso Web (Nginx/noVNC)**</th>
+        <th style="text-align:center;">**Acceso con Cliente VNC (Túnel SSH)**</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align:center;">
+          <pre>
+    ┌─────────────────────────────┐
+    │       Usuario Final         │
+    └─────────────┬───────────────┘
+                  │
+                  ▼
+    ┌─────────────────────────────┐
+    │       Navegador Web         │
+    │   (puerto local 8080/443)   │
+    └─────────────┬───────────────┘
+                  │
+                  ▼
+    ┌─────────────────────────────┐
+    │         Internet            │
+    └─────────────┬───────────────┘
+                  │
+                  ▼
+    ┌─────────────────────────────┐
+    │     Dominio público         │
+    │   (puertos 80/443 TCP)      │
+    └─────────────┬───────────────┘
+                  │
+                  ▼
+    ┌─────────────────────────────┐
+    │         Nginx               │
+    │   (puertos 80/443 TCP)      │
+    └─────────────┬───────────────┘
+                  │
+                  ▼
+    ┌─────────────────────────────┐
+    │         noVNC               │
+    │   (puerto 8081 TCP)         │
+    └─────────────┬───────────────┘
+                  │
+                  ▼
+    ┌─────────────────────────────┐
+    │         x11vnc              │
+    │   (puerto 5900 TCP)         │
+    └─────────────────────────────┘
+          </pre>
+        </td>
+        <td style="text-align:center;">
+          <pre>
+┌─────────────────────────────┐
+│       Cliente VNC           │
+│   (puerto local 5901)       │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│       Túnel SSH             │
+│   (puerto 22 TCP)           │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│         x11vnc              │
+│   (puerto 5900 TCP)         │
+└─────────────────────────────┘
+          </pre>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 **Resumen de puertos utilizados:**
 - **22 TCP**: SSH (túnel seguro)
