@@ -335,6 +335,10 @@ Para que el tráfico de Internet llegue a Nginx, debes abrir los puertos web.
 
 `https://your_domain.com/vnc.html`
 
+<a>
+    <img src="https://github.com/kanekitakitos/personal-vnc-server-guide/blob/main/gif/parte_3.gif">
+</a>
+
 ## Estructura de Archivos Esperada
 
 Después de seguir la guía, la estructura de archivos y directorios relevantes debería verse así:
