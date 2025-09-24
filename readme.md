@@ -6,65 +6,9 @@ Esta guía ofrece instrucciones detalladas para configurar un servidor de escrit
 
 ## Diagrama del Flujo de Conexión y Puertos
 
-```
-      ┌─────────────────────────────┐                         
-      │        Usuario Final        │                         
-      └─────────────┬───────────────┘                         
-                    │                         
-                    ▼                         
-      ┌─────────────────────────────┐                         
-      │      Navegador Web          │                         
-      │  (puerto local 8080/443)    │                         
-      └─────────────┬───────────────┘                         
-                    │                         
-                    ▼                         
-      ┌─────────────────────────────┐                         
-      │        Internet             │                         
-      └─────────────┬───────────────┘                         
-                    │                         
-                    ▼                         
-      ┌─────────────────────────────┐                         
-      │      Dominio público        │                         
-      │   (puertos 80/443 TCP)      │                         
-      └─────────────┬───────────────┘                         
-                    │                         
-                    ▼                         
-      ┌─────────────────────────────┐                         
-      │         Nginx               │                         
-      │  (puertos 80/443 TCP)       │                         
-      └─────────────┬───────────────┘                         
-                    │                         
-                    ▼                         
-      ┌─────────────────────────────┐                         
-      │         noVNC               │                         
-      │   (puerto 8081 TCP)         │                         
-      └─────────────┬───────────────┘                         
-                    │                                                  
-                    ▼                                                  
-      ┌─────────────────────────────┐                         
-      │         x11vnc              │                         
-      │   (puerto 5900 TCP)         │                         
-      └─────────────────────────────┘                         
-
-Alternativamente, para clientes VNC tradicionales:
-
-┌─────────────────────────────┐
-│        Cliente VNC          │
-│    (puerto local 5901)      │
-└─────────────┬───────────────┘
-              │
-              ▼
-┌─────────────────────────────┐
-│      Túnel SSH              │
-│  (puerto 22 TCP)            │
-└─────────────┬───────────────┘
-              │
-              ▼
-┌─────────────────────────────┐
-│        x11vnc               │
-│    (puerto 5900 TCP)        │
-└─────────────────────────────┘
-```
+| **Acceso Web (Nginx/noVNC)** | **Acceso con Cliente VNC (Túnel SSH)** |
+|:--------------------------:|:--------------------------------------:|
+| <pre>      ┌─────────────────────────────┐<br>      │        Usuario Final        │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │      Navegador Web          │<br>      │  (puerto local 8080/443)    │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │        Internet             │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │      Dominio público        │<br>      │   (puertos 80/443 TCP)      │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │         Nginx               │<br>      │  (puertos 80/443 TCP)       │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │         noVNC               │<br>      │   (puerto 8081 TCP)         │<br>      └─────────────┬───────────────┘<br>                    │<br>                    ▼<br>      ┌─────────────────────────────┐<br>      │         x11vnc              │<br>      │   (puerto 5900 TCP)         │<br>      └─────────────────────────────┘</pre> | <pre>┌─────────────────────────────┐<br>│        Cliente VNC          │<br>│    (puerto local 5901)      │<br>└─────────────┬───────────────┘<br>              │<br>              ▼<br>┌─────────────────────────────┐<br>│      Túnel SSH              │<br>│  (puerto 22 TCP)            │<br>└─────────────┬───────────────┘<br>              │<br>              ▼<br>┌─────────────────────────────┐<br>│        x11vnc               │<br>│    (puerto 5900 TCP)        │<br>└─────────────────────────────┘<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></pre> |
 
 **Resumen de puertos utilizados:**
 - **22 TCP**: SSH (túnel seguro)
@@ -216,6 +160,10 @@ Mantén abierta la terminal donde ejecutaste este comando. Ahora, abre tu client
 
 Tu conexión VNC ahora es segura y está completamente encriptada a través de SSH.
 
+<a>
+    <img src="https://github.com/kanekitakitos/personal-vnc-server-guide/blob/main/gif/parte_1.gif">
+</a>
+
 ## Alternativa 1: Acceso Web con noVNC (vía Túnel SSH)
 
 Este método te permite acceder a tu escritorio VNC desde un navegador web, manteniendo la seguridad de un túnel SSH.
@@ -265,6 +213,10 @@ Para asegurar que el proxy de noVNC se ejecute automáticamente, crearemos un se
 2.  **Accede desde el navegador**:
     Mantén la terminal del túnel abierta y visita la siguiente URL en tu navegador:
     `http://localhost:8080/vnc.html`
+
+<a>
+    <img src="https://github.com/kanekitakitos/personal-vnc-server-guide/blob/main/gif/parte_2.gif">
+</a>
 
 ## Alternativa 2: Acceso Web con Nginx y SSL
 
