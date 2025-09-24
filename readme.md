@@ -4,30 +4,83 @@
 
 Esta guía ofrece instrucciones detalladas para configurar un servidor de escritorio remoto (VNC) en Ubuntu, con un fuerte enfoque en la seguridad. Es ideal para usuarios que desean acceder a su entorno gráfico de forma remota, ya sea mediante un cliente VNC tradicional o desde el navegador web, utilizando conexiones seguras como túneles SSH y certificados SSL.
 
-## Diagrama del Flujo de Conexión
+## Diagrama del Flujo de Conexión y Puertos
 
 ```
-Usuario Final
-      |
-      v
-+-----------+      +---------------------+      +-----------------+      +------------------+      +-----------------------+
-| Navegador | ---> | Dominio (HTTPS/WSS) | ---> | Nginx (Proxy)   | ---> | noVNC (Servidor) | ---> | x11vnc (Servidor VNC) |
-+-----------+      +---------------------+      +-----------------+      +------------------+      +-----------------------+
-      |
-      v
-+----------------+       +---------------------+
-| Cliente VNC    | ----> | Túnel SSH (Local)   | ----> (Conexión Directa al Servidor VNC)
-+----------------+       +---------------------+
+      ┌─────────────────────────────┐                         
+      │        Usuario Final        │                         
+      └─────────────┬───────────────┘                         
+                    │                         
+                    ▼                         
+      ┌─────────────────────────────┐                         
+      │      Navegador Web          │                         
+      │  (puerto local 8080/443)    │                         
+      └─────────────┬───────────────┘                         
+                    │                         
+                    ▼                         
+      ┌─────────────────────────────┐                         
+      │        Internet             │                         
+      └─────────────┬───────────────┘                         
+                    │                         
+                    ▼                         
+      ┌─────────────────────────────┐                         
+      │      Dominio público        │                         
+      │   (puertos 80/443 TCP)      │                         
+      └─────────────┬───────────────┘                         
+                    │                         
+                    ▼                         
+      ┌─────────────────────────────┐                         
+      │         Nginx               │                         
+      │  (puertos 80/443 TCP)       │                         
+      └─────────────┬───────────────┘                         
+                    │                         
+                    ▼                         
+      ┌─────────────────────────────┐                         
+      │         noVNC               │                         
+      │   (puerto 8081 TCP)         │                         
+      └─────────────┬───────────────┘                         
+                    │                                                  
+                    ▼                                                  
+      ┌─────────────────────────────┐                         
+      │         x11vnc              │                         
+      │   (puerto 5900 TCP)         │                         
+      └─────────────────────────────┘                         
+
+Alternativamente, para clientes VNC tradicionales:
+
+┌─────────────────────────────┐
+│        Cliente VNC          │
+│    (puerto local 5901)      │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│      Túnel SSH              │
+│  (puerto 22 TCP)            │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│        x11vnc               │
+│    (puerto 5900 TCP)        │
+└─────────────────────────────┘
 ```
+
+**Resumen de puertos utilizados:**
+- **22 TCP**: SSH (túnel seguro)
+- **5900 TCP**: Servidor VNC (x11vnc)
+- **8081 TCP**: Proxy Websockify/noVNC
+- **8080 TCP**: Proxy local para acceso web vía túnel SSH
+- **80 TCP**: HTTP (Nginx, redirige a HTTPS)
+- **443 TCP**: HTTPS (Nginx, acceso seguro desde navegador)
 
 ## Requisitos Previos
 
 Antes de comenzar, asegúrate de tener lo siguiente:
 
 - **Servidor**: Una instancia de Ubuntu (se recomienda versión 20.04 o superior).
-- **Acceso**: Acceso como `root` o usuario con privilegios de `sudo`.
-- **Dominio (Opcional pero recomendado)**: Un nombre de dominio registrado que apunte a la IP de tu servidor. Es necesario para la configuración con Nginx y SSL.
-- **Conocimientos Básicos**: Familiaridad con la terminal de Linux.
+- **Encaminamiento de Puertos (si es necesario)**: Si tu servidor está detrás de un router (por ejemplo, en una red doméstica), deberás configurar el encaminamiento de puertos. Para la alternativa con Nginx, redirige los puertos `80` y `443` del router hacia la IP local de tu servidor.
+- **Dominio público**: Para acceso web seguro, necesitas un dominio apuntando a la IP pública de tu servidor.
 
 ## Archivos de Configuración
 
@@ -105,8 +158,8 @@ sudo apt install x11vnc
 ```bash
 sudo ufw allow ssh
 sudo ufw enable
-```
-> **Importante**: No abras el puerto 5900. La seguridad de este método se basa en que el VNC solo es accesible mediante túnel SSH o proxy Nginx.
+``` 
+> **Importante**: No abras el puerto 5900 directamente en el firewall. La seguridad de este método se basa en que el VNC solo es accesible mediante túnel SSH o proxy Nginx (HTTPS). Abre los puertos 80 y 443 solo si usas la alternativa web.
 
 ## Paso 4: Conexión Segura con Túnel SSH
 
@@ -192,11 +245,11 @@ sudo certbot --nginx -d your_domain.com
     sudo systemctl restart nginx
     ```
 
-4.  **Abre el puerto en el firewall**:
+4.  **Abre el puerto HTTPS en el firewall**:
     ```bash
     sudo ufw allow https
     ```
-
+ 
 ### 3. Conecta desde el Navegador
 
 Accede a tu escritorio remoto de forma segura visitando `https://your_domain.com/vnc.html`.
